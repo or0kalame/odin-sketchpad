@@ -13,6 +13,7 @@ cubeSizeText.textContent = `${DEFAULT_CUBE_SIZE} x ${DEFAULT_CUBE_SIZE}`;
 function buildGrid(cubeSize, gridSize) {
     let brush = document.getElementById('brush');
     brush.style.border = 'dashed 3px #f1b963'
+    brush.style.opacity = 0.66;
     grid.style.height = `${(cubeSize + 1) * gridSize}px`;
     grid.style.width = `${(cubeSize + 1) * gridSize}px`;
 
@@ -107,12 +108,16 @@ let eraser = document.getElementById('eraser')
 
 brush.addEventListener('click', () => {
     makeGridPaintable();
+    brush.style.opacity = 0.66;
+    eraser.style.opacity= 1;
     brush.style.border = 'dashed 3px #f1b963'
     eraser.style.border = '0px'
 })
 
 eraser.addEventListener('click', () => {
     makeGridPaintable('white');
+    eraser.style.opacity = 0.66;
+    brush.style.opacity= 1;
     eraser.style.border = 'dashed 3px #f1b963'
     brush.style.border = '0px'
 })
