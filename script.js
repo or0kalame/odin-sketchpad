@@ -1,21 +1,25 @@
 // Initialize variables
 let grid = document.getElementById('gridContainer');
-let defaultGridSize = 32;
-let defaultCubeSize = 15;
+const DEFAULT_GRID_SIZE = 32;
+const DEFAULT_CUBE_SIZE = 15;
+buildGrid(DEFAULT_CUBE_SIZE, DEFAULT_GRID_SIZE);
 
 // Building grid
-grid.style.height = `${(defaultCubeSize + 1) * defaultGridSize}px`;
-grid.style.width = `${(defaultCubeSize + 1) * defaultGridSize}px`;
+function buildGrid(cubeSize, gridSize) {
+    grid.style.height = `${(cubeSize + 1) * gridSize}px`;
+    grid.style.width = `${(cubeSize + 1) * gridSize}px`;
 
-for (let i = 0; i < defaultGridSize*defaultGridSize; i++) {
-    let square = document.createElement('div');
-    square.classList.add('gridItem');
-    square.style.backgroundColor = 'white';
-    square.style.width = `${defaultCubeSize}px`;
-    square.style.height = `${defaultCubeSize}px`;
-    square.style.border = "solid 0.5px black"
-    grid.appendChild(square);
+    for (let i = 0; i < gridSize*gridSize; i++) {
+        let square = document.createElement('div');
+        square.classList.add('gridItem');
+        square.style.backgroundColor = 'white';
+        square.style.width = `${cubeSize}px`;
+        square.style.height = `${cubeSize}px`;
+        square.style.border = "solid 0.5px black"
+        grid.appendChild(square);
+    }
 }
+
 
 // Code for paiting
 let gridItems = document.getElementsByClassName('gridItem')
@@ -32,10 +36,23 @@ let buttonPlusGrid = document.getElementById('plusGrid');
 let buttonMinusGrid = document.getElementById('minusGrid');
 let buttonPlusCube = document.getElementById('plusCube');
 let buttonMinusCube = document.getElementById('minusCube');
-
-gridSizeText.textContent = `${defaultGridSize} x ${defaultGridSize}`;
-cubeSizeText.textContent = `${defaultCubeSize} x ${defaultCubeSize}`;
+let newCubeSize = DEFAULT_CUBE_SIZE;
+let newGridSize = DEFAULT_GRID_SIZE;
+gridSizeText.textContent = `${DEFAULT_GRID_SIZE} x ${DEFAULT_GRID_SIZE}`;
+cubeSizeText.textContent = `${DEFAULT_CUBE_SIZE} x ${DEFAULT_CUBE_SIZE}`;
 
 buttonPlusGrid.addEventListener('click', () => {
-    defaultGridSize += defaultGridSize;
+    document.getElementById('gridContainer').innerHTML = '';
+
+    newGridSize *= 2;
+    gridSizeText.textContent = `${newGridSize} x ${newGridSize}`;
+    buildGrid(newCubeSize, newGridSize);
+});
+
+buttonMinusGrid.addEventListener('click', () => {
+    document.getElementById('gridContainer').innerHTML = '';
+
+    newGridSize /= 2;
+    gridSizeText.textContent = `${newGridSize} x ${newGridSize}`;
+    buildGrid(newCubeSize, newGridSize);
 });
