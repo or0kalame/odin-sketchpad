@@ -1,11 +1,18 @@
-// Initialize variables
+// Initialize variables and make the default grid
 let grid = document.getElementById('gridContainer');
+let gridSizeText = document.getElementById('gridSize');
+let cubeSizeText = document.getElementById('cubeSize');
 const DEFAULT_GRID_SIZE = 32;
 const DEFAULT_CUBE_SIZE = 15;
 buildGrid(DEFAULT_CUBE_SIZE, DEFAULT_GRID_SIZE);
+makeGridPaintable();
+gridSizeText.textContent = `${DEFAULT_GRID_SIZE} x ${DEFAULT_GRID_SIZE}`;
+cubeSizeText.textContent = `${DEFAULT_CUBE_SIZE} x ${DEFAULT_CUBE_SIZE}`;
 
-// Building grid
+// Functions
 function buildGrid(cubeSize, gridSize) {
+    let brush = document.getElementById('brush');
+    brush.style.border = 'dashed 3px #f1b963'
     grid.style.height = `${(cubeSize + 1) * gridSize}px`;
     grid.style.width = `${(cubeSize + 1) * gridSize}px`;
 
@@ -20,33 +27,46 @@ function buildGrid(cubeSize, gridSize) {
     }
 }
 
+function makeGridPaintable(color='black') {
+    let gridItems = document.getElementsByClassName('gridItem')
+    let mousedown = false;
 
-// Code for paiting
-let gridItems = document.getElementsByClassName('gridItem')
-for (let i = 0; i < gridItems.length; i++) {
-    gridItems[i].addEventListener('mousedown', () => {
-        gridItems[i].style.backgroundColor = 'black';
+    grid.addEventListener('mousedown', () => {
+        mousedown = true;
     })
+
+    grid.addEventListener('mouseup', () => {
+        mousedown = false;
+    })
+
+    for (let i = 0; i < gridItems.length; i++) {
+        gridItems[i].addEventListener('mousemove', () => {
+            if (mousedown) {
+                gridItems[i].style.backgroundColor = color;
+            }
+        })
+    }
 }
 
 // Writing and changing the grid information
-let gridSizeText = document.getElementById('gridSize');
-let cubeSizeText = document.getElementById('cubeSize');
 let buttonPlusGrid = document.getElementById('plusGrid');
 let buttonMinusGrid = document.getElementById('minusGrid');
 let buttonPlusCube = document.getElementById('plusCube');
 let buttonMinusCube = document.getElementById('minusCube');
 let newCubeSize = DEFAULT_CUBE_SIZE;
 let newGridSize = DEFAULT_GRID_SIZE;
-gridSizeText.textContent = `${DEFAULT_GRID_SIZE} x ${DEFAULT_GRID_SIZE}`;
-cubeSizeText.textContent = `${DEFAULT_CUBE_SIZE} x ${DEFAULT_CUBE_SIZE}`;
 
 buttonPlusGrid.addEventListener('click', () => {
-    document.getElementById('gridContainer').innerHTML = '';
+    if (newGridSize < 128) {
+        document.getElementById('gridContainer').innerHTML = '';
+        newGridSize *= 2;
+        gridSizeText.textContent = `${newGridSize} x ${newGridSize}`;
+        buildGrid(newCubeSize, newGridSize);
+        makeGridPaintable();
+    } else {
+        alert('You can\'t make grid size higher!')
+    }
 
-    newGridSize *= 2;
-    gridSizeText.textContent = `${newGridSize} x ${newGridSize}`;
-    buildGrid(newCubeSize, newGridSize);
 });
 
 buttonMinusGrid.addEventListener('click', () => {
@@ -55,6 +75,7 @@ buttonMinusGrid.addEventListener('click', () => {
     newGridSize /= 2;
     gridSizeText.textContent = `${newGridSize} x ${newGridSize}`;
     buildGrid(newCubeSize, newGridSize);
+    makeGridPaintable();
 });
 
 buttonPlusCube.addEventListener('click', () => {
@@ -63,16 +84,36 @@ buttonPlusCube.addEventListener('click', () => {
     newCubeSize += 5;
     cubeSizeText.textContent = `${newCubeSize} x ${newCubeSize}`;
     buildGrid(newCubeSize, newGridSize);
+    makeGridPaintable();
 });
 
 buttonMinusCube.addEventListener('click', () => {
     if (newCubeSize > 5) {
         document.getElementById('gridContainer').innerHTML = '';
+        
         newCubeSize -= 5;
         cubeSizeText.textContent = `${newCubeSize} x ${newCubeSize}`;
+
         buildGrid(newCubeSize, newGridSize);
+        makeGridPaintable();
     } else {
         alert('You can\'t make it lower!')
     }
-
 });
+
+// Brush and eraser logic
+let brush = document.getElementById('brush');
+let eraser = document.getElementById('eraser')
+
+brush.addEventListener('click', () => {
+    makeGridPaintable();
+    brush.style.border = 'dashed 3px #f1b963'
+    eraser.style.border = '0px'
+})
+
+eraser.addEventListener('click', () => {
+    makeGridPaintable('white');
+    eraser.style.border = 'dashed 3px #f1b963'
+    brush.style.border = '0px'
+})
+
