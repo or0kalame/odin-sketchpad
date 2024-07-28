@@ -1,0 +1,30 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#gridContainer {
+    display: flex;
+    background-color: white;
+    height: 256px;
+    width: 256px; 
+    flex-wrap: wrap;
+    margin: auto;
+}
+
+#gridInformation {
+    align-self: start;
+    padding: 10px 0px 0px 20px;
+}
+
+.text {
+    margin-bottom: 10px;
+}
+
+#minus {
+    margin-bottom: 10px;
+}
