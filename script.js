@@ -56,3 +56,23 @@ buttonMinusGrid.addEventListener('click', () => {
     gridSizeText.textContent = `${newGridSize} x ${newGridSize}`;
     buildGrid(newCubeSize, newGridSize);
 });
+
+buttonPlusCube.addEventListener('click', () => {
+    document.getElementById('gridContainer').innerHTML = '';
+
+    newCubeSize += 5;
+    cubeSizeText.textContent = `${newCubeSize} x ${newCubeSize}`;
+    buildGrid(newCubeSize, newGridSize);
+});
+
+buttonMinusCube.addEventListener('click', () => {
+    if (newCubeSize > 5) {
+        document.getElementById('gridContainer').innerHTML = '';
+        newCubeSize -= 5;
+        cubeSizeText.textContent = `${newCubeSize} x ${newCubeSize}`;
+        buildGrid(newCubeSize, newGridSize);
+    } else {
+        alert('You can\'t make it lower!')
+    }
+
+});
