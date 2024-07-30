@@ -8,6 +8,7 @@ body {
     font-family: Georgia, 'Times New Roman', Times, serif;
     background: #e46161; ;
     color: #f8f398;
+    gap: 20px;
 }
 
 #toolsBar {
@@ -33,6 +34,7 @@ span {
     height: 256px;
     width: 256px; 
     flex-wrap: wrap;
+    flex-shrink: 0;
     margin: auto;
     border: dashed 10px;
 }
